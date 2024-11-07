@@ -1,20 +1,16 @@
-import path from 'path';
-import * as fs from 'fs/promises';
+import { readContacts } from '../utils/readContacts.js';
+import { writeContacts } from '../utils/writeContacts.js';
 import { createFakeContact } from '../utils/createFakeContact.js';
 
-export const PATH_DB = path.resolve('src', 'db', 'db.json');
-
-const generateContacts = async (number) => {
+export const generateContacts = async (number) => {
   try {
-    const data = await fs.readFile(PATH_DB, 'utf-8');
-    const contacts = JSON.parse(data);
+    const contacts = await readContacts();
 
     const newContacts = Array.from({ length: number }, createFakeContact);
 
     const updatedContacts = [...contacts, ...newContacts];
 
-    const updatedData = JSON.stringify(updatedContacts, null, 2);
-    await fs.writeFile(PATH_DB, updatedData, 'utf-8');
+    await writeContacts(updatedContacts);
 
     console.log(`Додано ${number} нових контактів.`);
   } catch (error) {

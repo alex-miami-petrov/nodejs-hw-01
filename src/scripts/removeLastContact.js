@@ -1,22 +1,21 @@
-import path from 'path';
-import * as fs from 'fs/promises';
-
-export const PATH_DB = path.resolve('src', 'db', 'db.json');
+import { readContacts } from '../utils/readContacts.js';
+import { writeContacts } from '../utils/writeContacts.js';
 
 export const removeLastContact = async () => {
   try {
-    const data = await fs.readFile(PATH_DB, 'utf-8');
-    const contacts = JSON.parse(data);
+    const contacts = await readContacts();
+
     if (contacts.length > 0) {
       contacts.pop();
-      const updatedData = JSON.stringify(contacts, null, 2);
-      await fs.writeFile(PATH_DB, updatedData, 'utf-8');
+
+      await writeContacts(contacts);
+
       console.log('Останній контакт був успішно видалений.');
     } else {
-      console.log('Array is empty');
+      console.log('Масив контактів порожній.');
     }
   } catch (error) {
-    console.error("Couldn't delete last contact");
+    console.error("Couldn't delete last contact", error);
     throw new Error('Не вдалося видалити останній контакт');
   }
 };

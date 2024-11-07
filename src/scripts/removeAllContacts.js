@@ -1,16 +1,15 @@
-import path from 'path';
-import * as fs from 'fs/promises';
-
-export const PATH_DB = path.resolve('src', 'db', 'db.json');
+import { readContacts } from '../utils/readContacts.js';
+import { writeContacts } from '../utils/writeContacts.js';
 
 export const removeAllContacts = async () => {
   try {
-    const data = await fs.readFile(PATH_DB, 'utf-8');
-    const contacts = JSON.parse(data);
+    const contacts = await readContacts();
+
     if (contacts.length > 0) {
-      await fs.writeFile(PATH_DB, JSON.stringify([]));
+      await writeContacts([]);
+      console.log('Всі контакти були видалені.');
     } else {
-      console.log('File is empty');
+      console.log('Файл вже порожній.');
     }
   } catch (error) {
     console.error("Couldn't remove contacts", error);
@@ -20,7 +19,7 @@ export const removeAllContacts = async () => {
 
 removeAllContacts()
   .then(() => {
-    console.log('Remove completed');
+    console.log('Операція завершена');
   })
   .catch((error) => {
     console.error(error);

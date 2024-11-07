@@ -1,5 +1,8 @@
-import { PATH_DB } from '../constants/contacts.js';
+import path from 'path';
+
 import * as fs from 'fs/promises';
+
+export const PATH_DB = path.resolve('src', 'db', 'db.json');
 
 export const writeContacts = async (updatedContacts) => {
   try {
