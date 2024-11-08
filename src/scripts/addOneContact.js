@@ -1,11 +1,11 @@
-import path from 'path';
+// import path from 'path';
 import { readContacts } from '../utils/readContacts.js';
 import { writeContacts } from '../utils/writeContacts.js';
-
+import { PATH_DB } from '../constants/contacts.js';
 import { createFakeContact } from '../utils/createFakeContact.js';
 import * as fs from 'fs/promises';
 
-export const PATH_DB = path.resolve('src', 'db', 'db.json');
+// export const PATH_DB = path.resolve('src', 'db', 'db.json');
 
 const addOneContact = async () => {
   try {
